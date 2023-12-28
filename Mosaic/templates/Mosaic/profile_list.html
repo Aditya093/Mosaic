@@ -1,0 +1,39 @@
+{% include 'Mosaic/base.html' %}
+{% load static %}
+
+<div class="column">
+
+{% for profile in profiles %}
+
+    <div class="block">
+      <div class="card dimensions">
+        <a href="{% url 'profile' profile.id %}">
+          <div class="card-content">
+            <div class="media">
+              <div class="media-left">
+                {% if profile.profile_image %}
+                <figure class="image is-48x48">
+                  <img src="{{ profile.profile_image.url }}"
+                       alt="Placeholder image">
+                </figure>
+                {% endif %}
+              </div>
+            
+              <div class="media-content">
+                <p class="title is-4">
+                  {{ profile.user.username }}
+                </p>
+                <p class="subtitle is-6">
+                  @{{ profile.user.username|lower }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+{% endfor %}
+
+</div>
+

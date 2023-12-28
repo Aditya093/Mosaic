@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap">
+      <link rel="stylesheet" href="{% static 'css/style.css' %}">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" href="{% static 'images/logos/Web_Logo.png' %}" type="image/x-icon">
+</head>
+<body>
+    <section class="hero is-small gradient mb-4">
+        <div class="hero-body">
+            <div class="is-flex" style="align-items: center;">
+                <img class="logo1" src="{% static 'images/logos/Web_Logo.png' %}">
+                <h1 class="title is-1">Mosaic</h1>
+            </div>
+            
+            <p class="subtitle is-4">
+                A place where various pieces form something greater than ever
+            </p>
+            <div class="navbar-menu">
+
+                  <a href="{% url 'post_list' request.user.id %}" class="navbar-item" style="border-radius: 10px;">
+                    <strong>
+                      Feed
+                    </strong>  
+                  </a>
+                  <a href="{% url 'chats' %}" class="navbar-item" style="border-radius: 10px;">
+                    <strong>
+                      Chat
+                    </strong>
+                  </a>
+                  <a href="{% url 'profile' request.user.id %}" class="navbar-item" style="border-radius: 10px;">
+                    <strong>
+                      Profile
+                    </strong>
+                  </a>
+                  <a class="navbar-item" style="border-radius: 10px;">
+                    <strong>
+                      Explore
+                    </strong>
+                  </a>
+            </div>
+            <div>
+              <button class="button navbar-end" 
+               style="color:#ab51ce; background-color: white;  border: 2px solid #ab51ce">
+               <a href="{% url 'logout' %}">
+                Logout
+               </a> 
+              </button>
+           </div>
+        </div>
+        
+       
+    </section>
+   
+
+
+    <script>
+        function openModal() {
+          document.getElementById('followingModal').classList.add('is-active');
+        }
+      
+        function closeModal() {
+          document.getElementById('followingModal').classList.remove('is-active');
+        }
+        function openModal1() {
+          document.getElementById('followerModal').classList.add('is-active');
+        }
+      
+        function closeModal1() {
+          document.getElementById('followerModal').classList.remove('is-active');
+        }
+
+       
+        
+      </script>
+</body>
+</html>

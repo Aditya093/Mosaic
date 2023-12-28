@@ -1,0 +1,151 @@
+{% include 'Mosaic/base.html' %}
+{% load static %}
+
+
+<div class="column">
+
+    <div class="block">
+    <h1 class="title is-1">
+        {{profile.user.username|title}}'s Mosaic
+    </h1>
+    </div>
+   
+        <div class="block">
+            <a href="{% url 'profile_list' %}">
+                <button class="button is-dark is-outlined is-fullwidth">
+                    All Profiles
+                </button>
+            </a>
+    
+     
+        <div class="row is-flex">
+            <div class="block">
+                <div class="content">
+                    <ul>
+                
+                        <h3 class="title is-4" style="color:#000">
+                            Following
+                        </h3>
+                        <div>
+                            
+                        </div>
+                            <span href="#" style="color:#000" onclick="openModal()" >
+                                <li>
+                                    {{ profile.follows.all|length}}
+                                </li>
+                            </span>
+                           
+                    </ul>
+                </div>
+                
+            </div>
+            <div class="block">
+                <div class="content">
+                    <ul>
+                        <h3 class="title is-4" style="color:#2c2c2c">
+                            Followed By
+                        </h3>
+                        <span href="#" style="color:#2c2c2c" onclick="openModal1()">
+                            <li>
+                                {{ profile.followed_by.all|length }}
+                            </li>
+                        </span>
+                    </ul>
+                </div>
+                
+                
+            </div>
+        </div>
+        
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        <div class="buttons has-addons">
+        {% if request.user.profile in profile.followed_by.all %}
+            <button class="button is-success is-static" name="follow">Follow</button>
+            <button class="button is-danger" name="follow" value="unfollow">
+                Unfollow
+            </button>
+        {% else %}
+            <button class="button is-success" name="follow" value="follow">
+                Follow
+            </button>
+            <button class="button is-danger is-static" name="follow">Unfollow</button>
+        {% endif %}
+    </form>
+    
+</div>
+   
+    <p class="title is-size-3" style="align-items: center; justify-content: center;display: flex;">
+      
+        <img class="logo" src="{% static 'images/logos/CAM-LOGO.svg' %}" alt="Posts">
+    </p>
+
+<div class="row is-flex" style="height: 600px;">
+    
+        {% for post in posts %}
+        {% if post.image %}
+        
+        <div class="container">
+            
+           
+               <ul class="image-gallery">
+                <li>
+                    <img src="{{ post.image.url }}" alt="Post Image">
+                </li>
+               </ul>
+            
+        </div>
+        {% endif %}
+        {% endfor %}
+    
+        {% if posts|length %}
+             <div style="float:left; margin-left: 800px; margin-top: 300px">
+                  <p>
+                    <a href="{% url 'upload' %}">
+                       
+                        <strong>
+                            Add more images to your mosaic
+                        </strong>
+                      
+                    </a>
+                  </p>
+             </div>
+        {% endif %}
+   
+  </div>
+
+</div>
+
+<div id="followingModal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <div class="box">
+        <h3 class="title is-4" style="color: #000;">Following List</h3>
+        <ul>
+          {% for following in profile.follows.all %}
+            <li>{{ following }}</li>
+          {% endfor %}
+        </ul>
+        <button class="button is-info" onclick="closeModal()">Close</button>
+      </div>
+    </div>
+    <button class="modal-close is-large" aria-label="close" onclick="closeModal()"></button>
+</div>
+<div id="followerModal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <div class="box">
+        <h3 class="title is-4" style="color: #000;">Following List</h3>
+        <ul>
+          {% for follower in profile.followed_by.all %}
+            <li>{{ follower }}</li>
+          {% endfor %}
+        </ul>
+        <button class="button is-info" onclick="closeModal1()">Close</button>
+      </div>
+    </div>
+    <button class="modal-close is-large" aria-label="close" onclick="closeModal1()"></button>
+</div>
+
+

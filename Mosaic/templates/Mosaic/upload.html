@@ -1,0 +1,29 @@
+{% load static %}
+{% load widget_tweaks %}
+{% include 'Mosaic/base.html' %}
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+<link href="{% static 'css/upload.css' %}" rel="stylesheet">
+<div class="frame">
+	<div class="center">
+		<div class="title">
+			<h1>Drop file to upload</h1>
+		</div>
+        <form class="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+           
+                {% render_field form.content type="input" class="form-control z-depth-1" %}
+                <div class="dropzone">
+                    <img src="http://100dayscss.com/codepen/upload.svg" class="upload-icon" />
+                    {% render_field form.image type="file" class="upload-input" name="image" id="image" %}
+                  </div>
+        
+                  <button type="submit" class="btn" name="uploadbutton">Upload file</button>
+        
+            
+        </form>
+		
+	</div>
+</div>
