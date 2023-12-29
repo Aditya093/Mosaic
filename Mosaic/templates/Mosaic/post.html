@@ -42,7 +42,7 @@
                                 {% endif %}
                                 {% for post_ids, comments in post_comments.items %}
                                 {% if post_ids == post.post_id  %}
-                                <a href="javascript:void(0)" class="d-inline-block text-muted ml-3" data-toggle="modal" data-target="#commentModal{{post.post_id}}"> <strong>{{ comments.1 }}</strong> <small class="align-middle">Comments</small> </a>
+                                <a href="javascript:void(0)" class="d-inline-block text-muted ml-3 mr-2" data-toggle="modal" data-target="#commentModal{{post.post_id}}"> <strong>{{ comments.1 }}</strong> <small class="align-middle">Comments</small> </a>
                                 <div class="modal fade" id="commentModal{{post.post_id}}" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel" aria-hidden="true">
                                     <h6>Existing Comments:</h6>
                                     <ul class="list-group">
@@ -77,7 +77,7 @@
                                 
                                 {% endif %}
                                 {% endfor %}
-                                <a href="javascript:void(0)" class="d-inline-block text-muted ml-3"> <small class="align-middle">Repost</small> </a>
+                                <a href="{% url 'share_post' post_id=post.post_id %}"> <small class="align-middle">Share</small> </a>
                             </div>
                         
                         </div>

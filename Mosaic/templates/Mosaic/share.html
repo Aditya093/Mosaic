@@ -1,64 +1,99 @@
 {% include 'Mosaic/base.html' %}
+{% load widget_tweaks %}
 {% load static %}
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-<link rel="stylesheet" href="{% static 'css/chat.css' %}">
+<link rel="stylesheet" href="{% static 'css/post.css' %}">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js">
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
-
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card chat-app">
-                <br>
-                <h6 class="mb-4">Search</h6>
-                <br>
-                
-                <form method="post">
-                 
-                <div id="plist" class="people-list" style="width: 500px;">
-                    <div class="input-group">
-                         <div class="input-group-prepend">
-                            <span class="input-group-text">
-                                <i class="fa fa-search"></i>
-                            </span>
-                
-                         </div>
-                    </div>
-                    <br>
-                    <br>
-                    <ul class="list-unstyled chat-list mt-2 mb-0">
-                        {% csrf_token %}
-                        {% for receiver in users %}
-                        <div class="col">
-                            <div class="row .d-flex align-items-center justify-content-center">
-                                <li class="clearfix align-items-center" style="width: 500px;">
-                                    <img class="ml-2 mr-4" src="{{receiver.profile_image.url}}" alt="Image" style="width: 75px; height: 75px;">
-                                    <div class="about mr-2">
-                                        {{receiver}}
-                                     </div>
-
-                                <button class="button float-right" type="submit" value="{{receiver.id}}" name="users">
-                                 <i class="fa fa-send-o"></i>
-                                </button>
-                            
+<div class="col-lg-4 align-items-center justify-content-center">
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="media mb-3">
+                <img class="d-block ui-w-40 rounded-circle" src="{{post.user.profile.profile_image.url}}" style="height: 40px; width: 40px;">
+                <div class="media-body ml-3">
+                    {{post.user}}
+                </div>
+                <div class="text-muted small">
+                    {{post.created_at}}
+                </div>
+            </div>
+            <p>
+                {{post.content}}
+            </p>
+            <a href="javascript:void(0)" class="ui-rect ui-bg-cover" style="background-image:url('{{ post.image.url }}');"></a>
+            <div class="card-footer">
+               
+                {% if request.user in post.likes.all%}
+               
+                <a href="javascript:void(0)"style="color:blue;" class="d-inline-block like-btn" data-post-id="{{post.post_id}}"> <strong>{{post.likes.count}}</strong> <small class="align-middle">Likes</small> </a>
+                {% else %}
+                 <a href="javascript:void(0)" class="d-inline-block text-muted like-btn" data-post-id="{{post.post_id}}"> <strong>{{post.likes.count}}</strong> <small class="align-middle">Likes</small> </a>
+                {% endif %}
+                {% for post_ids, comments in post_comments.items %}
+                {% if post_ids == post.post_id  %}
+                <a href="javascript:void(0)" class="d-inline-block text-muted ml-3" data-toggle="modal" data-target="#commentModal{{post.post_id}}"> <strong>{{ comments.1 }}</strong> <small class="align-middle">Comments</small> </a>
+                <div class="modal fade" id="commentModal{{post.post_id}}" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel" aria-hidden="true">
+                    <h6>Existing Comments:</h6>
+                    <ul class="list-group">
+                        {% for comment in comments.0 %}
+                            <li class="list-group-item">
+                                <strong>{{ comment.user }}</strong>: {{ comment.content }}
                             </li>
-                            </div>
-                           
-                        </div>
-                        
-                       
                         {% endfor %}
                     </ul>
-                
-                </div>
-                </form>
-            </div>
-           
             
-        </div>
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="commentModalLabel">Add Comment</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="post" action="">
+                                    {% csrf_token %}
+                                   
+                                    <input type="hidden" name="post_id" value="{{post.post_id}}">
+                                    {% render_field comment_form.content  name="comment" class="form-control" rows="4" placeholder="Type your comment here" %}
+                                    <br>
+                                    <button type="submit" class="btn btn-primary">Submit Comment</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                {% endif %}
+                {% endfor %}
+                <a href="{% url 'share_post' post_id=post.post_id %}" class="d-inline-block text-muted ml-3" value="{% url 'share_post' post_id=post.post_id %}"> <small class="align-middle">Share</small> </a>
+            </div>
         
+        </div>
     </div>
-
 </div>
+
+<script>
+    $(document).ready(function(){
+        $('.like-btn').click(function(){
+                   var postId=$(this).data("post-id");
+                   $.ajax({
+                     type:"POST",
+                     url:"/like/",
+                     data:{
+                        post_id:postId,
+                        csrfmiddlewaretoken:'{{ csrf_token }}'
+                     },
+                     success: function(reponse){
+                        $('#'+postId + 'like-btn').text(repsonse.likes);
+                        $(".like-btn[data-post-id=" + postId + "]").toggleClass("liked", response.liked);
+
+                     }
+                   })
+        })
+
+    })
+    
+</script>

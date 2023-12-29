@@ -99,7 +99,7 @@
         {% endif %}
         {% endfor %}
     
-        {% if posts|length %}
+        {% if not posts|length %}
              <div style="float:left; margin-left: 800px; margin-top: 300px">
                   <p>
                     <a href="{% url 'upload' %}">

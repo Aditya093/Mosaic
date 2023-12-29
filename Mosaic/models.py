@@ -9,7 +9,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 @receiver(post_save,sender=User)
 def create_profile(sender, instance, created, **kwargs):
     if created:
-        user_profile = Profile(user=instance)
+        user_profile = Profile(user=instance,id=instance.id)
         user_profile.save()
         user_profile.follows.add(instance.profile)
         user_profile.save()
@@ -84,3 +84,11 @@ class Room(models.Model):
      receiver=models.ForeignKey(User,related_name="room_receiver",on_delete=models.CASCADE)
      room_name=models.CharField(null =True,blank=True,max_length=200,unique=True)
         
+class Share(models.Model):
+    sender=models.ForeignKey(User,on_delete=models.CASCADE,related_name="share_sent")
+    receiver=models.ForeignKey(User,on_delete=models.CASCADE,related_name="share_received")
+    post=models.ForeignKey(Post,on_delete=models.CASCADE)
+    timestamp=models.DateTimeField(auto_now_add=True)
+    expiration_timestamp=models.DateTimeField(default=timezone.now()+ timezone.timedelta(days=7))
+    def __str__(self):
+        return f"{self.sender.username} shared a post with {self.receiver.username}"        
