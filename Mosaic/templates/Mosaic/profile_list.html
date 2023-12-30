@@ -6,15 +6,17 @@
 {% for profile in profiles %}
 
     <div class="block">
-      <div class="card dimensions">
-        <a href="{% url 'profile' profile.id %}">
+      <div class="card dimensions" style="width: 50%; border-radius: 5px;">
+        <a class="float-left" href="{% url 'profile' profile.id %}">
           <div class="card-content">
-            <div class="media">
+            <div class="media float-left">
               <div class="media-left">
                 {% if profile.profile_image %}
                 <figure class="image is-48x48">
                   <img src="{{ profile.profile_image.url }}"
-                       alt="Placeholder image">
+                       alt="Placeholder image"
+                       style="width: 48px; height: 48px; border-radius: 20px;">
+                       
                 </figure>
                 {% endif %}
               </div>
@@ -34,6 +36,22 @@
     </div>
 
 {% endfor %}
+<div class="pagination">
+  <span class="step-links">
+    {% if profiles.has_previous %}
+      <a class="pagination-previous" href="?page=1">&laquo; first</a>
+      <a class="pagination-previous" href="?page={{ profiles.previous_page_number }}">previous</a>
+    {% endif %}
 
+    <span class="pagination-link is-current">
+      {{ profiles.number }}
+    </span>
+
+    {% if profiles.has_next %}
+      <a class="pagination-next" href="?page={{ profiles.next_page_number }}">next</a>
+      <a class="pagination-next" href="?page={{ profiles.paginator.num_pages }}">last &raquo;</a>
+    {% endif %}
+  </span>
+</div>
 </div>
 

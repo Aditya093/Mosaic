@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-41+&q1z^cpm3@))6$pk39z#ex00y9f-(o(hbk6^4)m-)!21zs)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['5b0f-103-42-128-50.ngrok-free.app','127.0.0.1']
 
 #channel Definition
 CHANNEL_LAYERS = {

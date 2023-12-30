@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.utils.crypto import get_random_string
 from django.db.models import Q
 from django.urls import reverse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views import View
 from Mosaic.forms import *
 from .models import *
@@ -73,6 +74,15 @@ def register(request):
 @login_required
 def profile_list(request):
     profiles=Profile.objects.exclude(user=request.user)
+    p=Paginator(profiles,10)
+    page = request.GET.get('page')
+    try:
+        profiles = p.page(page)
+    except PageNotAnInteger:
+        profiles = p.page(1)
+    except EmptyPage:
+        profiles = p.page(p.num_pages)
+
     return render(request,'Mosaic/profile_list.html',{'profiles':profiles})
 @login_required
 def dashboard(request):
@@ -83,7 +93,7 @@ def profile(request,pk):
         missing_profile = Profile(user=request.user)
         missing_profile.save()
     profile=Profile.objects.get(user_id=pk)
-    posts=Post.objects.filter(user_id=request.user.id)
+    posts=Post.objects.filter(user_id=pk)
     
     if request.method == "POST":
         current_user_profile = request.user.profile
