@@ -31,9 +31,32 @@ How to setup app in localhost.
 
 
 Screenshots:
+
 Login Page
 
 ![Screenshot 2023-12-31 163729](https://github.com/Aditya093/Mosaic/assets/90855562/ac4d46a8-11c8-4ddc-bfb6-81df2291204a)
+
+Register Page:
+
+![image](https://github.com/Aditya093/Mosaic/assets/90855562/2bcdc505-c623-4f97-8bae-d18a49c58b82)
+
+Profile Page:
+
+![image](https://github.com/Aditya093/Mosaic/assets/90855562/20e2f343-9f58-4288-a06b-4ea69e6158a5)
+
+Feed Page:
+
+![image](https://github.com/Aditya093/Mosaic/assets/90855562/a33afb3a-2e67-4db7-997e-cedaccf90f01)
+
+Chat Page:
+
+![image](https://github.com/Aditya093/Mosaic/assets/90855562/c7b8f795-8a12-49ff-bd45-c1572e009db9)
+
+Explore Page:
+
+![image](https://github.com/Aditya093/Mosaic/assets/90855562/6450f5b6-a9ab-47a6-b560-e94802cdebbe)
+
+
 
         
         
