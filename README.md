@@ -1,8 +1,8 @@
 Mosaic a social networking website made in integration with use of Django as a backend technology. 
 
 Backend Tools:
-   - 1. Django
-   - 2. Memurai
+     1. Django
+     2. Memurai
      3. Postgres DB
      4. Channels
      5. Websocket
@@ -32,6 +32,7 @@ How to setup app in localhost.
 
 Screenshots:
 Login Page
+
 ![Screenshot 2023-12-31 163729](https://github.com/Aditya093/Mosaic/assets/90855562/ac4d46a8-11c8-4ddc-bfb6-81df2291204a)
 
         
