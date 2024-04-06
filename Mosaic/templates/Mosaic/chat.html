@@ -41,7 +41,7 @@
                               </span>
                               <img class="rounded-circle" src="{{sender_name.profile_image.url}}" alt="avatar" style="width:30px; height:30px;">
                             </div>
-                            <div class="message other-message float-right">
+                            <div class="message other-message float-right text-white">
                                {{message.content|urlize}}
  
                             </div>
@@ -52,7 +52,7 @@
                             </span>
                             <img class="rounded-circle" src="{{receiver_name.profile_image.url}}" alt="avatar" style="width:30px; height:30px;">
                           </div>
-                          <div class="message my-message">
+                          <div class="message my-message text-white">
                              {{message.content|urlize}}
                           </div> 
                           {% endif %}

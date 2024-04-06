@@ -5,47 +5,44 @@
 <div class="column">
 
     <div class="block">
-    <h1 class="title is-1">
+    <h1 class="title">
         {{profile.user.username|title}}'s Mosaic
     </h1>
     </div>
    
-        <div class="block">
+        <div class="block my-3 mx-3">
             <a href="{% url 'profile_list' %}">
-                <button class="button is-dark is-outlined is-fullwidth">
+                <button class="btn btn-success">
                     All Profiles
                 </button>
             </a>
     
      
-        <div class="row is-flex">
-            <div class="block">
+        <div class="d-flex my-5 mx-3">
+            <div class="block col-md-6">
                 <div class="content">
+                    <h3 class="title my-2" style="color:#000">
+                        Following
+                    </h3>
                     <ul>
-                
-                        <h3 class="title is-4" style="color:#000">
-                            Following
-                        </h3>
-                        <div>
                             
-                        </div>
-                            <span href="#" style="color:#000" onclick="openModal()" >
+                            <span href="#" style="color:#000" onclick="openModal1('followingModal')" >
                                 <li>
                                     {{ profile.follows.all|length}}
                                 </li>
-                            </span>
-                           
+                           </span>  
                     </ul>
                 </div>
                 
             </div>
-            <div class="block">
+            <div class="block col-md-6">
                 <div class="content">
+                    <h3 class="title my-2" style="color:#2c2c2c">
+                        Followed By
+                    </h3>
                     <ul>
-                        <h3 class="title is-4" style="color:#2c2c2c">
-                            Followed By
-                        </h3>
-                        <span href="#" style="color:#2c2c2c" onclick="openModal1()">
+                       
+                        <span href="#" style="color:#2c2c2c" onclick="openModal1('followerModal')">
                             <li>
                                 {{ profile.followed_by.all|length }}
                             </li>
@@ -58,19 +55,19 @@
         </div>
         
     </div>
-    <form method="post">
+    <form class="mx-3" method="post">
         {% csrf_token %}
         <div class="buttons has-addons">
         {% if request.user.profile in profile.followed_by.all %}
-            <button class="button is-success is-static" name="follow">Follow</button>
-            <button class="button is-danger" name="follow" value="unfollow">
+            <button class="btn btn-success is-static  mx-2" name="follow">Follow</button>
+            <button class="btn btn-danger" name="follow" value="unfollow">
                 Unfollow
             </button>
         {% else %}
-            <button class="button is-success" name="follow" value="follow">
+            <button class="btn btn-success" name="follow" value="follow">
                 Follow
             </button>
-            <button class="button is-danger is-static" name="follow">Unfollow</button>
+            <button class="btn btn-danger is-static mx-2" name="follow">Unfollow</button>
         {% endif %}
     </form>
     
@@ -82,71 +79,65 @@
     </p>
 
    <hr style="background-color: #3c3c3c;">
-<div class="row is-flex" style="height: 600px;">
+
     
+<div class="container post-container rounded">
+    <div class="p-5" style="display: grid;grid-template-columns: repeat(3,0fr); gap:0;">
         {% for post in posts %}
         {% if post.image %}
-        
-        <div class="container">
-            
-           
-               <ul class="image-gallery">
-                <li>
-                    <img src="{{ post.image.url }}" alt="Post Image">
-                </li>
-               </ul>
-            
-        </div>
-        {% endif %}
-        {% endfor %}
-    
-        {% if not posts|length %}
-             <div style="float:left; margin-left: 800px; margin-top: 300px;">
-                  <p>
-                    <a href="{% url 'upload' %}" style="color:white">
-                       
-                        <strong>
-                            Add more images to your mosaic
-                        </strong>
-                      
-                    </a>
-                  </p>
-             </div>
-        {% endif %}
-   
-  </div>
-
+       <div style="height: 400px; width: 400px;">
+             <img class="img-fluid object-fit-cover w-100 h-100" src="{{ post.image.url }}" alt="Post Image" >
+       </div>
+       {% endif %}
+      {% endfor %} 
+      {% if not posts|length %}
+      <div style="float:left; margin-left: 800px; margin-top: 300px;">
+           <p>
+             <a href="{% url 'upload' %}" style="color:white">
+                
+                 <strong>
+                     Add more images to your mosaic
+                 </strong>
+               
+             </a>
+           </p>
+      </div>
+   {% endif %}
+    </div>
+</div>
 </div>
 
 <div id="followingModal" class="modal">
     <div class="modal-background"></div>
-    <div class="modal-content">
-      <div class="box">
-        <h3 class="title is-4" style="color: #000;">Following List</h3>
+    <div class="modal-content w-25">
+      <div class="box mx-3">
+        <button class="btn btn-close my-3 mx-2" onclick="closeModal1('followingModal')"></button>
+        <h3 class="title mx-3" style="color: #000;">Following List</h3>
         <ul>
           {% for following in profile.follows.all %}
             <li>{{ following }}</li>
           {% endfor %}
         </ul>
-        <button class="button is-info" onclick="closeModal()">Close</button>
+        
       </div>
     </div>
-    <button class="modal-close is-large" aria-label="close" onclick="closeModal()"></button>
+    
 </div>
 <div id="followerModal" class="modal">
     <div class="modal-background"></div>
-    <div class="modal-content">
-      <div class="box">
-        <h3 class="title is-4" style="color: #000;">Following List</h3>
+    <div class="modal-content w-25">
+      <div class="box mx-3">
+        <button class="btn btn-close my-3 mx-2" onclick="closeModal1('followerModal')"></button>
+        <h3 class="title mx-3" style="color: #000;">Followed By List</h3>
         <ul>
           {% for follower in profile.followed_by.all %}
             <li>{{ follower }}</li>
           {% endfor %}
         </ul>
-        <button class="button is-info" onclick="closeModal1()">Close</button>
+      
       </div>
     </div>
-    <button class="modal-close is-large" aria-label="close" onclick="closeModal1()"></button>
+    
 </div>
 
 
